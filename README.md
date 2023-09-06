@@ -1,3 +1,3 @@
-# tugas-automata1
+# Tugas Automata
 
 demo: https://creepy-seed.surge.sh
