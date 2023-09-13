@@ -1,6 +1,6 @@
 # Tugas Automata
 
-demo: https://creepy-seed.surge.sh
+demo: tugas-automata.surge.sh
 
-  - Tugas 1: https://creepy-seed.surge.sh/tugas1.html
-  - Tugas 2: https://creepy-seed.surge.sh/tugas2.html
+  - Tugas 1: tugas-automata.surge.sh/tugas1.html
+  - Tugas 2: tugas-automata.surge.sh/tugas2.html
