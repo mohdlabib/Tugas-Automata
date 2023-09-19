@@ -14,14 +14,15 @@
     <section class="sec-tugas">
         <div class="center row p-3">
             <div class="text-center mb-4">
-                <h4 class="preview">🤔</h4>
+                <h4 class="preview">? 🤔</h4>
             </div>
             <div class="col-md-4 mx-auto">
                 <div class="mb-3">
                     <label for="inputandata" class="form-label">Inputan Kata</label>
                     <input type="text" class="form-control" id="inputandata" placeholder="Contoh: abc.">
-                    <div id="emailHelp" class="form-text">masukan kata yang telah dia atur 😀.</div>
+                    <div id="emailHelp" class="form-text">masukan urutan alfabet satu persatu 😀.</div>
                 </div>
+                <h6>Output : <span id="steps"></span></h6>
             </div>
         </div>
     </section>
@@ -29,25 +30,62 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
+    <script src="assets/js/confetti.min.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
         const preview = document.querySelector('.preview');
+        const steps = document.querySelector('#steps');
         const input = document.querySelector('#inputandata');
+        
+        let datas = "";
+        let expectedInput = "a";
+        
+        input.addEventListener('keydown', (event) => {
+            if (event.key === "Enter") {
+                let data = event.target.value.toLowerCase();
 
-        input.addEventListener('input', (event) => {
-            let data = event.target.value
+                if (data === expectedInput) {
+                    datas += data;
+                    steps.innerHTML = datas;
+                    input.value = "";
 
-            if (data == "abc") {
-                preview.innerHTML = "🤗";
-            } else if (data == "a") {
-                preview.innerHTML = "🤗";
-            } else if (data == "b") {
-                preview.innerHTML = "🤗";
-            } else if (data == "c") {
-                preview.innerHTML = "🤗";
-            } else if (data == "") {
-                preview.innerHTML = "🤔";
-            } else {
-                preview.innerHTML = "🤨";
+                    // remove and change preview
+                    preview.innerHTML = "? 🤔";
+                    preview.classList.remove('success')
+                    preview.classList.remove('failed')
+
+                    // make expectation for input
+                    if (expectedInput === "a") {
+                        expectedInput = "b";
+                    } else if (expectedInput === "b") {
+                        expectedInput = "c";
+                    } else if (expectedInput === "c") {
+                        expectedInput = "a";
+                    }
+
+                    // check if datas is abc
+                    if (datas === "abc") {
+                        preview.innerHTML = "Betul 🤗"
+                        preview.classList.remove('failed')
+                        preview.classList.add('success')
+                        datas = ""
+
+                        // gif efek
+                        start();
+                        stop();
+                    }
+
+
+                } else {
+                    datas = "";
+                    steps.innerHTML = "";
+                    input.value = "";
+                    expectedInput = "a";
+
+                    preview.innerHTML = "Urutan Salah 😟";
+                    preview.classList.remove('success');
+                    preview.classList.add('failed');
+                }
             }
         });
     </script>

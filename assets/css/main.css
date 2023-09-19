@@ -12,5 +12,11 @@ body {
   height: 40px;
 }
 .sec-tugas .preview {
-  font-size: 60px;
+  font-size: 50px;
+}
+.sec-tugas .failed {
+  color: #FF6D60;
+}
+.sec-tugas .success {
+  color: #38E54D;
 }

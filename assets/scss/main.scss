@@ -16,6 +16,14 @@ body {
     }
 
     .preview {
-        font-size: 60px
+        font-size: 50px
+    }
+
+    .failed {
+        color: #FF6D60;
+    }
+
+    .success {
+        color: #38E54D;
     }
 }
