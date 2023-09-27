@@ -23,10 +23,12 @@
                     <div id="emailHelp" class="form-text">masukan inputan katanya 😀.</div>
                 </div>
                 <h6>Output : <span id="steps"></span></h6>
-                <div class="mt-3">
+                <div class="my-3">
                     <label for="inputandata" class="form-label">Final State</label>
                     <input type="text" class="form-control" id="inputanExp" placeholder="contoh: abc">
                 </div>
+                <h6 class="mt-5">Riwayat Inputan :</h6>
+                <ul id="riwayatInputan" class="list-group"></ul>
             </div>
         </div>
     </section>
@@ -34,12 +36,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const riwayatList = document.querySelector('#riwayatInputan');
         const preview = document.querySelector('.preview');
         const steps = document.querySelector('#steps');
         const input = document.querySelector('#inputandata');
         const inputanExp = document.querySelector('#inputanExp');
 
+        let riwayatInputan = [];
         let datas = "";
 
         // word if you want
@@ -49,6 +54,11 @@
         inputanExp.addEventListener('keydown', event => {
             if (event.key === "Enter") {
                 expectedInput = event.target.value;
+
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Final state berubah.'
+                })
             }
         })
 
@@ -71,19 +81,74 @@
                         preview.innerHTML = "Inputan Diterima 🤗";
                         preview.classList.remove('failed');
                         preview.classList.add('success');
+
+                        riwayatInputan.push({
+                            input: datas,
+                            finalState: expectedInput,
+                            status: 'Benar'
+                        })
+
                         datas = "";
+
+                        updateRiwayat()
                     }
 
                 } else {
-                    datas = "";
                     steps.innerHTML = "";
                     input.value = "";
                     preview.innerHTML = "Inputan Ditolak 😟";
                     preview.classList.remove('success');
                     preview.classList.add('failed');
+
+                    riwayatInputan.push({
+                        input: datas,
+                        finalState: expectedInput,
+                        status: 'Salah'
+                    });
+
+                    datas = "";
+
+                    updateRiwayat()
                 }
             }
         });
+
+        function updateRiwayat() {
+            riwayatList.innerHTML = "";
+            riwayatInputan.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item');
+                listItem.innerHTML = `
+                    <div class="row">
+                        <div class="col">
+                            Input ${index + 1}: ${item.input}
+                        </div>
+                        <div class="col">
+                            Final State: ${item.finalState}
+                        </div>
+                        <div class="col">
+                            <span class="badge ${item.status}">${item.status}</span>
+                        </div>
+                    </div>
+                `;
+                riwayatList.appendChild(listItem);
+            });
+        }
+    </script>
+
+    <!-- sintaks for alert ( sweetalert ) -->
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
     </script>
 </body>
 

@@ -20,3 +20,12 @@ body {
 .sec-tugas .success {
   color: #38E54D;
 }
+.sec-tugas .Salah {
+  background-color: #FF6D60;
+}
+.sec-tugas .Benar {
+  background-color: #38E54D;
+}
+.sec-tugas .list-group {
+  border-radius: 10px;
+}
