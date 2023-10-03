@@ -7,4 +7,5 @@ demo: https://tugas-automata.surge.sh
   - Tugas 2 - Alternatif: https://tugas-automata.surge.sh/tugas2-alternatif.html
 
 
-  * Tugas 2 hanya sedikit pengecekan tambahan di line 70. 
+  * Tugas 2 hanya sedikit pengecekan tambahan di line 70.
+  * Tambahan alur alternatif.
