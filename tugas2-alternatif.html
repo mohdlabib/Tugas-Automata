@@ -18,14 +18,15 @@
             </div>
             <div class="col-md-4 mx-auto">
                 <div class="mb-3">
-                    <label for="inputandata" class="form-label">Inputan Kata</label>
+                    <label for="inputandata" class="form-label">Inputan Kalimat</label>
                     <input type="text" class="form-control" id="inputandata" placeholder="...">
-                    <div id="emailHelp" class="form-text">masukan inputan katanya 😀.</div>
+                    <div id="emailHelp" class="form-text">Masukkan inputan kalimatnya 😀.</div>
                 </div>
                 <h6>Output : <span id="steps"></span></h6>
                 <div class="my-3">
                     <label for="inputandata" class="form-label">Final State</label>
-                    <input type="text" class="form-control" id="inputanExp" placeholder="contoh: abc">
+                    <input type="text" class="form-control" id="inputanExp"
+                        placeholder="Contoh: Saya mau perkalimat bukan kata">
                 </div>
                 <h6 class="mt-5">Riwayat Inputan :</h6>
                 <ul id="riwayatInputan" class="list-group"></ul>
@@ -49,32 +50,32 @@
         let riwayatInputan = [];
         let datas = "";
 
-        // word if you want
         let expectedInput = "saya makan nasi";
-        inputanExp.value = expectedInput
+        inputanExp.value = expectedInput;
 
-        inputanExp.addEventListener('keydown', event => {
-            if (event.key === "Enter") {
-                expectedInput = event.target.value;
+        let words = expectedInput.split(" ");
+        let indexWord = 0;
 
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Final state berubah.'
-                })
-            }
-        })
+        inputanExp.addEventListener('input', event => {
+            expectedInput = event.target.value;
+            words = expectedInput.split(" ");
+            Toast.fire({
+                icon: 'success',
+                title: 'Final state berubah.'
+            });
+        });
 
         input.addEventListener('keydown', (event) => {
             if (event.key === "Enter") {
                 let data = event.target.value.toLowerCase();
 
-                // Check if there are spaces and if space add space
-                if (expectedInput[datas.length] === " ") {
-                    datas += " ";
-                }
+                if (data === words[indexWord]) {
+                    if (indexWord == (words.length - 1)) {
+                        datas += data;
+                    } else {
+                        datas += data + " ";
+                    }
 
-                if (data === expectedInput[datas.length]) {
-                    datas += data;
                     steps.innerHTML = datas;
                     input.value = "";
 
@@ -82,6 +83,7 @@
                     preview.innerHTML = "? 🤔";
                     preview.classList.remove('success');
                     preview.classList.remove('failed');
+                    indexWord++;
 
                     // check if datas is equal to expectedInput
                     if (datas === expectedInput) {
@@ -96,6 +98,7 @@
                         })
 
                         datas = "";
+                        indexWord = 0;
 
                         updateRiwayat()
                         start()
@@ -115,9 +118,7 @@
                         status: 'Salah'
                     });
 
-                    datas = "";
-
-                    updateRiwayat()
+                    updateRiwayat();
                 }
             }
         });
