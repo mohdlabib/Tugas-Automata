@@ -29,3 +29,10 @@ body {
 .sec-tugas .list-group {
   border-radius: 10px;
 }
+.sec-tugas .garis {
+  border: 2px solid #000000;
+  border-radius: 10px;
+}
+.sec-tugas .status, .sec-tugas .status2 {
+  font-weight: 510;
+}
