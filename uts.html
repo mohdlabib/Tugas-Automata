@@ -26,12 +26,18 @@
                     <input type="text" class="form-control" id="inputanNim" placeholder="...">
                 </div>
                 <hr class="my-4 garis">
+                <div class="mb-3 text-center">
+                    <label for="inputandata" class="form-label">Scanner</label>
+                    <input type="text" class="form-control w-25 mx-auto" id="scanner" disabled maxlength="1">
+                    <div><span class="status">-</span></div>
+                </div>
+                <hr class="my-4 garis">
                 <div class="mb-3">
-                    <label for="inputandata" class="form-label">Scanning karakter <span class="status"></span></label>
+                    <label for="inputandata" class="form-label">Scanning karakter Nama</label>
                     <input type="text" class="form-control" id="steps" disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="inputandata" class="form-label">Scanning karakter <span class="status2"></span></label>
+                    <label for="inputandata" class="form-label">Scanning karakter NIM</label>
                     <input type="text" class="form-control" id="steps2" disabled>
                 </div>
             </div>
@@ -40,6 +46,8 @@
 
     <!-- JS -->
     <script>
+        const scannerInput = document.querySelector('#scanner');
+
         const inputD = document.querySelector('#inputandata');
         const inputN = document.querySelector('#inputanNim');
         
@@ -49,10 +57,9 @@
 
         // for preview Nim
         const previewN = document.querySelector('#steps2');
-        const statusN = document.querySelector('.status2');
 
         // speed typing
-        const speedText = 100;
+        const speedText = 300;
 
         inputD.addEventListener('keydown', function (event) {
             if (event.key === "Enter") {
@@ -62,11 +69,17 @@
 
         inputN.addEventListener('keydown', function (event) {
             if (event.key === "Enter") {
-                showLetters(inputN.value, statusN, previewN);
+                showLetters(inputN.value, statusD, previewN);
             }
         })
 
-        function showLetters(kata, status, preview) {
+        const sleep = (delay) => new Promise(resolve => {
+            setTimeout(resolve, delay)
+        })
+
+        const sleepDef = 300;
+
+        async function showLetters(kata, status, preview) {
 
             // data function
             let data = ["abcdefghijklmnopqrstuvwxyz", "1234567890", "!@#$%^&*()_+-=[]{}|;:'\<>,.?/"];
@@ -74,10 +87,10 @@
                 step2 = 0;
             let hasil = ""
 
-            function printLetter() {
+            async function printLetter() {
                 if (step1 < kata.length) {
 
-                    function Countdown() {
+                    async function Countdown() {
                         let ints
 
                         if(kata.charAt(step1) == " "){
@@ -98,6 +111,7 @@
                         if (ints.charAt(step2) == kata.charAt(step1)) {
                             step1++
                             hasil += ints.charAt(step2)
+                            scannerInput.value = ints.charAt(step2);
                             step2 = 0;
 
                             // add fix bug
@@ -105,14 +119,24 @@
                             status.innerHTML = "diterima"
                             status.classList.remove('failed');
                             status.classList.add('success');
+                            await sleep(sleepDef)
+                            status.classList.remove('success');
+                            status.innerHTML = "-"
+                            scannerInput.value = "";
                             setTimeout(printLetter, speedText);
                         } else {
                             step2++
-                            preview.value = hasil + ints.charAt(step2)
+                            let kata = hasil + ints.charAt(step2)
+                            let kata2 = hasil
+                            scannerInput.value = ints.charAt(step2);
 
                             status.innerHTML = "ditolak"
                             status.classList.remove('success');
                             status.classList.add('failed');
+                            await sleep(sleepDef)
+                            scannerInput.value = "";
+                            status.classList.remove('failed');
+                            status.innerHTML = "-"
                             setTimeout(Countdown, speedText);
                         }
                     }
