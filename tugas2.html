@@ -24,9 +24,12 @@
                 </div>
                 <h6>Output : <span id="steps"></span></h6>
                 <div class="my-3">
-                    <label for="inputandata" class="form-label">Final State</label>
-                    <input type="text" class="form-control" id="inputanExp"
-                        placeholder="Contoh: Saya mau perkalimat bukan kata">
+                    <label for="inputandata" class="form-label">Final State 1</label>
+                    <input type="text" class="form-control" id="inputanExp">
+                </div>
+                <div class="my-3">
+                    <label for="inputandata" class="form-label">Final State 2</label>
+                    <input type="text" class="form-control" id="inputanExp2">
                 </div>
                 <h6 class="mt-5">Riwayat Inputan :</h6>
                 <ul id="riwayatInputan" class="list-group"></ul>
@@ -45,15 +48,22 @@
         const preview = document.querySelector('.preview');
         const steps = document.querySelector('#steps');
         const input = document.querySelector('#inputandata');
+
         const inputanExp = document.querySelector('#inputanExp');
+        const inputanExp2 = document.querySelector('#inputanExp2');
 
         let riwayatInputan = [];
         let datas = "";
 
         let expectedInput = "saya makan nasi";
+        let expectedInput2 = "saya memasak nasi";
+
         inputanExp.value = expectedInput;
+        inputanExp2.value = expectedInput2;
 
         let words = expectedInput.split(" ");
+        let words2 = expectedInput2.split(" ");
+
         let indexWord = 0;
 
         inputanExp.addEventListener('input', event => {
@@ -61,7 +71,16 @@
             words = expectedInput.split(" ");
             Toast.fire({
                 icon: 'success',
-                title: 'Final state berubah.'
+                title: 'Final state 1 berubah.'
+            });
+        });
+
+        inputanExp2.addEventListener('input', event => {
+            expectedInput2 = event.target.value;
+            words2 = expectedInput2.split(" ");
+            Toast.fire({
+                icon: 'success',
+                title: 'Final state 2 berubah.'
             });
         });
 
@@ -69,8 +88,8 @@
             if (event.key === "Enter") {
                 let data = event.target.value.toLowerCase();
 
-                if (data === words[indexWord]) {
-                    if (indexWord == (words.length - 1)) {
+                if (words.includes(data) || words2.includes(data)) {
+                    if (indexWord == (words.length - 1) || indexWord == (words2.length - 1)) {
                         datas += data;
                     } else {
                         datas += data + " ";
@@ -86,15 +105,18 @@
                     indexWord++;
 
                     // check if datas is equal to expectedInput
-                    if (datas === expectedInput) {
+                    if (datas === expectedInput || datas === expectedInput2) {
                         preview.innerHTML = "Inputan Diterima 🤗";
                         preview.classList.remove('failed');
                         preview.classList.add('success');
 
+                        let text2 = expectedInput + expectedInput2;
+
                         riwayatInputan.push({
                             input: datas,
-                            finalState: expectedInput,
-                            status: 'Benar'
+                            classI: "Benar",
+                            finalState: text2,
+                            status: 'Dikenali'
                         })
 
                         datas = "";
@@ -114,8 +136,9 @@
 
                     riwayatInputan.push({
                         input: data,
+                        classI: "Salah",
                         finalState: expectedInput,
-                        status: 'Salah'
+                        status: 'Tidak dikenali'
                     });
 
                     updateRiwayat();
@@ -137,7 +160,7 @@
                             Final State: ${item.finalState}
                         </div>
                         <div class="col">
-                            <span class="badge ${item.status}">${item.status}</span>
+                            <span class="badge ${item.classI}">${item.status}</span>
                         </div>
                     </div>
                 `;
