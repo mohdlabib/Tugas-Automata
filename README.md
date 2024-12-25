@@ -5,9 +5,9 @@
 
 ### 📃 Demo 
 
- - [Tugas 1](https://tugas-automata.surge.sh/tugas1.html)
- - [Tugas 2](https://tugas-automata.surge.sh/tugas2.html)
- - [UTS](https://tugas-automata.surge.sh/uts.html)
+ - [Tugas 1](https://tugas-automata.project.labibweb.my.id/tugas1.html)
+ - [Tugas 2](https://tugas-automata.project.labibweb.my.id/tugas2.html)
+ - [UTS](https://tugas-automata.project.labibweb.my.id/uts.html)
 
 
 ### 🎥 Screenshot
